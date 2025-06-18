@@ -1,6 +1,6 @@
 {
   "name": "better-typeorm-naming-strategies",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Better naming strategies for typeorm",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -30,7 +30,8 @@
   "scripts": {
     "build": "rm -rf dist && npm run tsc && cp README.md package.json dist/",
     "tsc": "tsc",
-    "test": "jest"
+    "test": "jest",
+    "prepublishOnly": "npm run build"
   },
   "prettier": {
     "singleQuote": true,
