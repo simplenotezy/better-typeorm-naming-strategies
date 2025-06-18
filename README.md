@@ -131,25 +131,58 @@ export class UserProfile {
 
 When `betterConstraintAndIndexNames: true`, your constraints and indices get simple, readable names.
 
+**Example:**
+Consider these two related entities:
+
+```typescript
+// User.ts
+@Entity()
+export class User {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column({ unique: true })
+  email: string;
+
+  @OneToOne(() => UserProfile, (profile) => profile.user)
+  profile: UserProfile;
+}
+
+// UserProfile.ts
+@Entity()
+@Index(['displayName']) // Example for a simple index
+export class UserProfile {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column()
+  displayName: string;
+
+  @OneToOne(() => User)
+  @JoinColumn() // Creates a 'userId' foreign key column
+  user: User;
+}
+```
+
 **Before (default TypeORM):**
+Your constraints would have cryptic, generated names.
 
-```
-FK_b75a68b1ca018c3daa0bb77731b
-IDX_f8ade2f823f9b1e3b3b1c6d3b3
-```
+- Foreign Key on `userId`: `FK_b75a68b1ca018c3daa0bb77731b`
+- Unique Constraint on `email`: `UQ_e12875dfb3b1d92d7d7c5377e22`
+- Index on `displayName`: `IDX_f8ade2f823f9b1e3b3b1c6d3b3`
 
-**After:**
+**After (with `BetterNamingStrategy`):**
+The names become clear and predictable.
 
-```
-FK_user_profile_user_id
-IDX_user_profile_display_name
-```
+- Foreign Key on `userId`: `FK_user_profile_user_id`
+- Unique Constraint on `email`: `UQ_user_email`
+- Index on `displayName`: `IDX_user_profile_display_name`
 
 No more guessing what a constraint does!
 
 ## 🙏 Acknowledgements
 
-This package is heavily inspired by the great work done in [`typeorm-naming-strategies`](https://www.npmjs.com/package/typeorm-naming-strategies) by tonivj5. This version modernizes the package, adds more flexible configuration, and provides more comprehensive tests.
+This package is heavily inspired by the great work done in [`typeorm-naming-strategies`](https://www.npmjs.com/package/typeorm-naming-strategies) by tonivj5. This version modernizes the package, adds more flexible configuration, and depends on latest TypeORM version.
 
 ## License
 
