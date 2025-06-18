@@ -1,9 +1,12 @@
 {
   "name": "better-typeorm-naming-strategies",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Better naming strategies for typeorm",
-  "main": "index.js",
-  "types": "index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "keywords": [
     "typeorm",
     "naming",
